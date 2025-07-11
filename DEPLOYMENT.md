@@ -151,6 +151,83 @@ Vite remplacera `monImage` par le chemin final correct au moment du build.
 
 ---
 
+## 🛑 Piège ultime : Routing des Single-Page-Apps (SPA) sur GitHub Pages
+
+**Symptôme :**
+- Le site marche bien, mais si on rafraîchit une page autre que l'accueil (ex: `/contact`), on a une erreur 404 de GitHub.
+- L'URL change bizarrement ou on est redirigé vers la racine `github.io`.
+
+**Cause :**
+- GitHub Pages ne connaît que les fichiers physiques (`index.html`). Il ne sait pas que `react-router` gère des routes virtuelles comme `/contact`. Quand on lui demande ce fichier, il ne le trouve pas.
+
+**Solution (en 3 temps) :**
+
+### 1. Configurer le `basename` du Routeur
+Il faut dire à `react-router` que le site ne vit pas à la racine, mais dans un sous-dossier.
+
+Dans `src/main.jsx`, on ajoute `basename` au `<BrowserRouter>` :
+```jsx
+import { BrowserRouter } from 'react-router-dom';
+
+<BrowserRouter basename="/nom-du-repo/">
+  <App />
+</BrowserRouter>
+```
+
+### 2. Créer un `404.html` de redirection
+On crée un fichier `public/404.html` qui va intercepter toutes les requêtes 404 et les rediriger intelligemment vers notre `index.html`.
+
+Contenu de `public/404.html` :
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>SPA Redirect</title>
+    <script type="text/javascript">
+      var l = window.location;
+      l.replace(
+        l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1).join('/') + '/?p=/' +
+        l.pathname.slice(1).split('/').join('/').replace(/&/g, '~and~') +
+        (l.search ? '&q=' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash
+      );
+    </script>
+  </head>
+  <body></body>
+</html>
+```
+
+### 3. Mettre à jour `index.html` pour gérer la redirection
+On ajoute un script dans `index.html` (dans le `<head>`) pour lire les paramètres de l'URL de redirection et restaurer la bonne URL dans l'historique du navigateur.
+
+Contenu à ajouter dans `<head>` de `index.html` :
+```html
+<script type="text/javascript">
+  (function(l) {
+    if (l.search) {
+      var q = {};
+      l.search.slice(1).split('&').forEach(function(v) {
+        var a = v.split('=');
+        q[a[0]] = a.slice(1).join('=').replace(/~and~/g, '&');
+      });
+      if (q.p !== undefined) {
+        window.history.replaceState(null, null,
+          l.pathname.slice(0, -1) + (q.p || '') +
+          (q.q ? ('?' + q.q) : '') +
+          l.hash
+        );
+      }
+    }
+  }(window.location))
+</script>
+```
+
+Avec ces 3 étapes, le routing des SPA sur GitHub Pages devient indestructible.
+
+---
+
 ### Fichiers modifiés :
 - ✅ Composants copiés dans `src/components/common/` (38 fichiers)
 - ✅ Imports mis à jour dans `src/components/index.js`
