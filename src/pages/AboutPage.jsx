@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Badge, Divider } from '../components';
+import carolineImage from '/images/caroline-bonnin.jpg';
 
 const AboutPage = () => {
   return (
@@ -36,7 +37,7 @@ const AboutPage = () => {
             <div className="text-center">
               <div className="avatar">
                 <div className="w-80 rounded-xl ring ring-secondary ring-offset-base-100 ring-offset-4">
-                  <img src="/images/caroline-bonnin.jpg" alt="Caroline Bonnin - Coach en Intelligence Amoureuse" />
+                  <img src={carolineImage} alt="Caroline Bonnin - Coach en Intelligence Amoureuse" />
                 </div>
               </div>
             </div>
@@ -140,7 +141,7 @@ const AboutPage = () => {
           <Divider className="my-12 opacity-30" />
 
           <div className="grid md:grid-cols-3 gap-8 text-left">
-            <Card className="bg-base-100 shadow-xl">
+            <Card className="w-full bg-base-100 shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3 text-primary">
                   Une aide concrète
@@ -152,7 +153,7 @@ const AboutPage = () => {
               </div>
             </Card>
 
-            <Card className="bg-base-100 shadow-xl">
+            <Card className="w-full bg-base-100 shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3 text-primary">
                   Un accompagnement bienveillant
@@ -164,7 +165,7 @@ const AboutPage = () => {
               </div>
             </Card>
 
-            <Card className="bg-base-100 shadow-xl">
+            <Card className="w-full bg-base-100 shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3 text-primary">
                   Une transformation durable

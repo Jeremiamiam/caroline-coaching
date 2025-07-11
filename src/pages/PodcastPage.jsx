@@ -34,7 +34,7 @@ const PodcastPage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-base-200 shadow-lg">
+            <Card className="w-full bg-base-200 shadow-lg">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3">
                   Lucidité
@@ -46,7 +46,7 @@ const PodcastPage = () => {
               </div>
             </Card>
 
-            <Card className="bg-base-200 shadow-lg">
+            <Card className="w-full bg-base-200 shadow-lg">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3">
                   Tendresse
@@ -58,7 +58,7 @@ const PodcastPage = () => {
               </div>
             </Card>
 
-            <Card className="bg-base-200 shadow-lg">
+            <Card className="w-full bg-base-200 shadow-lg">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-xl mb-3">
                   Audace
@@ -91,21 +91,21 @@ const PodcastPage = () => {
           </div>
 
           <div className="grid md:grid-cols-3 gap-6 mb-8">
-            <Card className="bg-accent-content text-accent shadow-xl">
+            <Card className="w-full bg-accent-content text-accent shadow-xl">
               <div className="card-body text-center">
                 <h4 className="font-bold">Spotify</h4>
                 <p className="text-sm opacity-80">Bientôt disponible</p>
               </div>
             </Card>
 
-            <Card className="bg-accent-content text-accent shadow-xl">
+            <Card className="w-full bg-accent-content text-accent shadow-xl">
               <div className="card-body text-center">
                 <h4 className="font-bold">Apple Podcasts</h4>
                 <p className="text-sm opacity-80">Bientôt disponible</p>
               </div>
             </Card>
 
-            <Card className="bg-accent-content text-accent shadow-xl">
+            <Card className="w-full bg-accent-content text-accent shadow-xl">
               <div className="card-body text-center">
                 <h4 className="font-bold">Autres plateformes</h4>
                 <p className="text-sm opacity-80">Google Podcasts, Deezer...</p>

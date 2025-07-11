@@ -69,8 +69,8 @@ const ContactPage = () => {
 
       {/* PREMIER ENTRETIEN GRATUIT */}
       <section className="py-8 bg-base-200">
-        <div className="container mx-auto px-4 max-w-4xl">
-          <Card className="bg-success/10 border border-success/20 shadow-lg">
+        <div className="container mx-auto px-4 max-w-4xl flex justify-center">
+          <Card className="w-full max-w-2xl bg-success/10 border border-success/20 shadow-lg">
             <div className="card-body p-6">
               <div className="text-center">
                 <h2 className="text-2xl font-bold text-primary mb-4">Premier entretien gratuit</h2>

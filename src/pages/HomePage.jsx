@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Button, Card, Hero, Badge } from '../components';
+import carolineImage from '/images/caroline-bonnin.jpg';
 
 const HomePage = () => {
   return (
@@ -11,7 +12,7 @@ const HomePage = () => {
           <div className="max-w-3xl">
             <div className="avatar mb-6">
               <div className="w-32 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                <img src="/images/caroline-bonnin.jpg" alt="Caroline Bonnin - Coach en Intelligence Amoureuse" />
+                <img src={carolineImage} alt="Caroline Bonnin - Coach en Intelligence Amoureuse" />
               </div>
             </div>
             <h1 className="text-6xl font-bold text-primary mb-4">
@@ -120,7 +121,7 @@ const HomePage = () => {
           </h2>
           
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="bg-primary text-primary-content shadow-xl">
+            <Card className="w-full bg-primary text-primary-content shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-2xl mb-4">
                   Coaching à la carte
@@ -140,7 +141,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="bg-secondary text-secondary-content shadow-xl">
+            <Card className="w-full bg-secondary text-secondary-content shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-2xl mb-4">
                   Accompagnement 6 mois
@@ -160,7 +161,7 @@ const HomePage = () => {
               </div>
             </Card>
 
-            <Card className="bg-accent text-accent-content shadow-xl">
+            <Card className="w-full bg-accent text-accent-content shadow-xl">
               <div className="card-body text-center">
                 <h3 className="card-title justify-center text-2xl mb-4">
                   Accompagnement couple

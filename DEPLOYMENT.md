@@ -6,10 +6,159 @@
 
 **Solution appliquée :** Copie locale des 38 composants Yam-Daisy.
 
+---
+
+## 🛑 Erreur critique rencontrée : dépendance manquante `prop-types`
+
+**Symptôme :**
+```
+[vite]: Rollup failed to resolve import "prop-types" from "/src/components/common/Breadcrumbs.jsx".
+This is most likely unintended because it can break your application at runtime.
+```
+
+**Cause :**
+- Les composants Yam-Daisy copiés utilisent `prop-types` pour la validation des props.
+- Si tu ne l'ajoutes pas dans le `package.json`, le build Vite/Rollup PLANTE (en local si tu fais un clean, et systématiquement sur GitHub Actions).
+
+**Solution :**
+```bash
+npm install prop-types
+# Puis commit package.json et package-lock.json
+```
+
+**À faire systématiquement** si tu copies des composants React d'un autre repo :
+- Checker les imports en haut de chaque fichier copié (genre `import PropTypes from 'prop-types'`)
+- Installer les dépendances manquantes AVANT de builder
+
+---
+
+## 🛑 Erreur critique rencontrée : 404 sur les assets JS/CSS après déploiement GitHub Pages
+
+**Symptôme :**
+```
+Failed to load resource: the server responded with a status of 404 ()
+(index-xxxx.js, index-xxxx.css)
+```
+
+**Cause :**
+- Par défaut, Vite build les assets pour `/` (racine du domaine).
+- Sur GitHub Pages, le site est servi sous `/nom-du-repo/` (ex: `/caroline-coaching/`).
+- Résultat : les assets sont introuvables, le site est cassé.
+
+**Solution :**
+1. Ouvre `vite.config.js`
+2. Ajoute la ligne suivante :
+```js
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  base: '/caroline-coaching/', // <-- AJOUTER CETTE LIGNE
+  plugins: [react()],
+})
+```
+3. Rebuild et push :
+```bash
+npm run build
+git add vite.config.js
+git commit -m "fix: set Vite base to /caroline-coaching/ for GitHub Pages (404 fix)"
+git push
+```
+
+**À faire systématiquement** pour tout projet Vite sur GitHub Pages :
+- Toujours adapter le `base` dans Vite à `/nom-du-repo/` sinon assets introuvables.
+
+---
+
+## 🛑 Erreurs critiques de Layout & Assets (CSS qui ne s'applique pas, images cassées)
+
+Si le layout est cassé (marges, grilles) ou que les images ne s'affichent pas, voici les pièges classiques à vérifier.
+
+### 1. Piège des largeurs fixes dans une grille (`w-96` vs `w-full`)
+
+**Symptôme :**
+- Des `Card` dans une `grid` sont collées, se superposent, ou passent à la ligne de façon inattendue.
+- Le `gap` de la grille ne semble pas s'appliquer.
+
+**Cause :**
+- Les `Card` ont une largeur fixe (ex: `w-96`). Or, dans un conteneur `grid`, c'est la grille qui doit contrôler la largeur de ses colonnes. Une largeur fixe sur l'enfant entre en conflit avec la logique de la grille.
+
+**Solution :**
+- **TOUJOURS** utiliser `w-full` sur un composant `Card` qui est un enfant direct d'un conteneur `grid`.
+- **NE JAMAIS** utiliser de largeur fixe comme `w-80`, `w-96`, etc. sur un enfant de `grid`.
+
+```jsx
+// MAUVAIS ❌
+<div className="grid md:grid-cols-3 gap-8">
+  <Card className="w-96">...</Card>
+  <Card className="w-96">...</Card>
+</div>
+
+// BON ✅
+<div className="grid md:grid-cols-3 gap-8">
+  <Card className="w-full">...</Card>
+  <Card className="w-full">...</Card>
+</div>
+```
+
+### 2. Piège du centrage d'un élément seul
+
+**Symptôme :**
+- Une `Card` seule dans un `div` n'est pas centrée horizontalement, elle reste collée à gauche.
+
+**Cause :**
+- Par défaut, un bloc dans un autre bloc s'aligne à gauche. `mx-auto` sur l'enfant ne marche pas toujours si le parent n'est pas un conteneur flexible.
+
+**Solution :**
+- Transformer le `div` parent en conteneur `flex` et le forcer à centrer son contenu.
+- Donner une largeur `w-full` et une `max-w-` à l'enfant pour qu'il soit responsive.
+
+```jsx
+// MAUVAIS ❌
+<div className="container mx-auto max-w-4xl">
+  <Card className="w-96">...</Card>
+</div>
+
+// BON ✅
+<div className="container mx-auto max-w-4xl flex justify-center">
+  <Card className="w-full max-w-2xl">...</Card>
+</div>
+```
+
+### 3. Piège des chemins d'images (chemins absolus vs imports)
+
+**Symptôme :**
+- Les images s'affichent en local mais sont cassées une fois déployées sur GitHub Pages (ou l'inverse).
+
+**Cause :**
+- Un chemin absolu comme `src="/images/mon-image.jpg"` dépend de la racine du site. En local, c'est `localhost:5173/`. En production, ça peut être `domaine.com/nom-du-repo/`. Vite a parfois du mal à réconcilier les deux.
+
+**Solution :**
+- **TOUJOURS** importer les images directement dans le composant JSX. C'est la méthode la plus robuste, gérée par Vite.
+
+```jsx
+// MAUVAIS ❌
+<img src="/images/mon-image.jpg" />
+
+// BON ✅
+import monImage from '/images/mon-image.jpg';
+
+const MonComposant = () => {
+  return <img src={monImage} />;
+}
+```
+Vite remplacera `monImage` par le chemin final correct au moment du build.
+
+---
+
 ### Fichiers modifiés :
 - ✅ Composants copiés dans `src/components/common/` (38 fichiers)
 - ✅ Imports mis à jour dans `src/components/index.js`
 - ✅ Build testé et fonctionnel
+- ✅ **prop-types** ajouté dans le `package.json` (sinon build KO)
+- ✅ **base: '/caroline-coaching/'** ajouté dans `vite.config.js` (sinon assets 404)
+
+---
 
 ## 🌐 Déploiement sur GitHub Pages
 
@@ -167,16 +316,16 @@ node-version: '22'     # ✅ Latest, parfait aussi
 
 ## 📋 Checklist déploiement
 
-- [x] Composants Yam-Daisy copiés localement
-- [x] Imports mis à jour vers les composants locaux  
-- [x] Build testé et fonctionnel
-- [x] DaisyUI correctement configuré
-- [x] Images optimisées (caroline-bonnin.jpg)
-- [x] Navigation responsive
-- [x] Toutes les pages créées (Home, About, Contact, etc.)
-- [x] **GitHub Actions - Versions récentes utilisées**
-- [x] Repository GitHub créé
-- [x] GitHub Pages configuré (Source: GitHub Actions)
+- [ ] Composants Yam-Daisy copiés localement
+- [ ] Imports mis à jour vers les composants locaux  
+- [ ] Build testé et fonctionnel
+- [ ] DaisyUI correctement configuré
+- [ ] Images optimisées (caroline-bonnin.jpg)
+- [] Navigation responsive
+- [ ] Toutes les pages créées (Home, About, Contact, etc.)
+- [ ] **GitHub Actions - Versions récentes utilisées**
+- [ ] Repository GitHub créé
+- [ ] GitHub Pages configuré (Source: GitHub Actions)
 - [ ] Domaine personnalisé (optionnel)
 
 ## 🔧 **Maintenance des composants**

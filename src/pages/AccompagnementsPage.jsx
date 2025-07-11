@@ -20,8 +20,8 @@ const AccompagnementsPage = () => {
 
       {/* PREMIER ENTRETIEN OFFERT */}
       <section className="py-12 bg-base-200">
-        <div className="container mx-auto px-4 text-center max-w-3xl">
-          <Card className="bg-success/10 border border-success shadow-lg">
+        <div className="container mx-auto px-4 text-center max-w-3xl flex justify-center">
+          <Card className="w-full max-w-2xl bg-success/10 border border-success shadow-lg">
             <div className="card-body">
               <h3 className="text-2xl font-bold mb-2 text-success">Premier entretien offert</h3>
               <p className="text-lg text-base-content/80">
@@ -50,7 +50,7 @@ const AccompagnementsPage = () => {
 
           <div className="grid md:grid-cols-2 gap-8 mb-16">
             {/* COACHING A LA CARTE */}
-            <Card className="bg-base-100 shadow-xl border-2 border-primary/20 hover:border-primary/50 transition-colors">
+            <Card className="w-full bg-base-100 shadow-xl border-2 border-primary/20 hover:border-primary/50 transition-colors">
               <div className="card-body">
                 <div className="text-center mb-6">
                   <h3 className="card-title justify-center text-2xl text-primary mb-2">
@@ -90,7 +90,7 @@ const AccompagnementsPage = () => {
             </Card>
 
             {/* ACCOMPAGNEMENT 6 MOIS */}
-            <Card className="bg-base-100 shadow-xl border-2 border-secondary relative">
+            <Card className="w-full bg-base-100 shadow-xl border-2 border-secondary relative">
               <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
                 <Badge variant="secondary" className="text-lg px-4 py-2">
                   ⭐ RECOMMANDÉ
@@ -159,7 +159,7 @@ const AccompagnementsPage = () => {
 
           <div className="grid md:grid-cols-2 gap-8">
             {/* COACHING COUPLE A LA CARTE */}
-            <Card className="bg-base-100 shadow-xl">
+            <Card className="w-full bg-base-100 shadow-xl">
               <div className="card-body">
                 <div className="text-center mb-6">
                   <h3 className="card-title justify-center text-2xl text-accent mb-2">
@@ -199,7 +199,7 @@ const AccompagnementsPage = () => {
             </Card>
 
             {/* ACCOMPAGNEMENT COUPLE 7 MOIS */}
-            <Card className="bg-base-100 shadow-xl border-2 border-accent">
+            <Card className="w-full bg-base-100 shadow-xl border-2 border-accent">
               <div className="card-body">
                 <div className="text-center mb-6">
                   <h3 className="card-title justify-center text-2xl text-accent mb-2">
