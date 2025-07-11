@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from 'react-router-dom';
+import { Routes, Route, Link, useLocation } from 'react-router-dom';
 import { Button, Badge, Navbar, Footer } from './components';
 import { useTheme } from './contexts/ThemeContext';
 
@@ -156,28 +156,26 @@ const SiteFooter = () => {
   );
 };
 
-// App Component avec Router
+// App Component SANS Router
 function App() {
   return (
-    <Router>
-      <div className="min-h-screen bg-base-100">
-        <Navigation />
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/qui-suis-je" element={<AboutPage />} />
-            <Route path="/accompagnements" element={<AccompagnementsPage />} />
-            <Route path="/podcast" element={<PodcastPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-            <Route path="/theme" element={<ThemePage />} />
-            {/* Redirections pour compatibilité */}
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/services" element={<AccompagnementsPage />} />
-          </Routes>
-        </main>
-        <SiteFooter />
-      </div>
-    </Router>
+    <div className="min-h-screen bg-base-100">
+      <Navigation />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/qui-suis-je" element={<AboutPage />} />
+          <Route path="/accompagnements" element={<AccompagnementsPage />} />
+          <Route path="/podcast" element={<PodcastPage />} />
+          <Route path="/contact" element={<ContactPage />} />
+          <Route path="/theme" element={<ThemePage />} />
+          {/* Redirections pour compatibilité */}
+          <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<AccompagnementsPage />} />
+        </Routes>
+      </main>
+      <SiteFooter />
+    </div>
   );
 }
 
