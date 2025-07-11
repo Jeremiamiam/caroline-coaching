@@ -57,7 +57,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4        # ✅ v4 (pas v3!)
         with:
-          node-version: '18'
+          node-version: '20'               # ✅ Node 20+ requis pour React 19
           cache: 'npm'
           
       - name: Install dependencies
@@ -143,6 +143,27 @@ export default {
   }
 }
 ```
+
+### 🟢 **Versions Node.js - Compatibilité React/Vite**
+**PROBLÈME :** React 19 + Vite 7 incompatibles avec Node 18
+
+❌ **COMBINAISONS QUI PLANTENT :**
+```yaml
+node-version: '18'     # ❌ TROP VIEUX pour React 19
+# + React 19.1.0       # ❌ Requiert Node 20+
+# + Vite 7.0.4          # ❌ Optimisé pour Node 20+
+# = EXIT CODE 1 ! 💥
+```
+
+✅ **VERSIONS COMPATIBLES :**
+```yaml
+node-version: '20'     # ✅ LTS compatible React 19
+node-version: '22'     # ✅ Latest, parfait aussi
+# + React 19.x         # ✅ Fonctionne parfaitement  
+# + Vite 7.x           # ✅ Performance optimale
+```
+
+**RÈGLE :** Toujours aligner la version Node GitHub Actions avec ta version locale !
 
 ## 📋 Checklist déploiement
 
